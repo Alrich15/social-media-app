@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.socialmedia.dto.UserDTO;
 import com.socialmedia.entity.Users;
 import com.socialmedia.service.IUserService;
 
@@ -42,6 +43,11 @@ public class UserController {
 	@PutMapping("update/{id}/{bio}")
 	public void updateUserBio(@PathVariable("id") Integer userId, @PathVariable("bio") String bio) {
 		 userServ.updateUser(userId,bio);
+	}
+	
+	@GetMapping("/all/followers/{id}")
+	public List<UserDTO> getFollowersById(@PathVariable("id") Integer userId){
+		return userServ.getFollowersById(userId);
 	}
 	
 }

@@ -2,6 +2,7 @@ package com.socialmedia.service;
 
 import java.util.List;
 
+import com.socialmedia.dto.UserDTO;
 import com.socialmedia.entity.Users;
 
 public interface IUserService {
@@ -13,5 +14,7 @@ public interface IUserService {
 	void deleteUser(Integer userId);
 
 	void updateUser(Integer userId, String bio);
+
+	List<UserDTO> getFollowersById(Integer userId);
 
 }
