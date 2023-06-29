@@ -13,7 +13,7 @@ import com.socialmedia.dto.UserDTO;
 import lombok.Data;
 
 @NamedNativeQuery(name = "Relation.getFollowersById",
-query = "SELECT u.name as name, u.user_name as userName, u.bio as bio FROM users u, relation r WHERE r.user_id = u.user_id AND r.user_id=:id",
+query = "SELECT u.name as name, u.user_name as user_name, u.bio as bio FROM users u, relation r WHERE r.user_id = u.user_id AND r.user_id=:id",
 resultSetMapping = "Mapping.UserDTO")
 @SqlResultSetMapping(name = "Mapping.UserDTO",
    classes = @ConstructorResult(targetClass = UserDTO.class,
