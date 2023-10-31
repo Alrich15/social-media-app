@@ -14,5 +14,7 @@ public interface IPostService {
 
 	void deletePostById(Integer postId);
 
+	PostDetails viewPostById(Integer postId);
+
 	
 }

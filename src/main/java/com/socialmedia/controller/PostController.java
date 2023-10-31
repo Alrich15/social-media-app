@@ -37,6 +37,12 @@ public class PostController {
 		return new ResponseEntity<>(postServ.viewAllPosts(), HttpStatus.OK);
 	}
 	
+	@GetMapping("/post/view/{id}")
+	public ResponseEntity<PostDetails> viewPostById(@PathVariable("id")Integer postId){
+		return new ResponseEntity<>(postServ.viewPostById(postId),HttpStatus.OK);
+		
+	}
+	
 	@PatchMapping("post/likes/{id}/{likes}")
 	public ResponseEntity<Void> updateLikes(@PathVariable("id")Integer postId,@PathVariable("likes") Integer likes) {
 		 postServ.updateLikes(postId, likes);

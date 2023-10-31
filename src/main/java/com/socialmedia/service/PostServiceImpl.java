@@ -34,6 +34,11 @@ public class PostServiceImpl implements IPostService{
 		 postRepo.deleteById(postId);
 		
 	}
+
+	@Override
+	public PostDetails viewPostById(Integer postId) {
+		return postRepo.findById(postId).get();
+	}
 	
 	
 	
