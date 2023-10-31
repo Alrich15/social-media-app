@@ -2,7 +2,11 @@ package com.socialmedia.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.socialmedia.dto.UserDTO;
 import com.socialmedia.entity.Users;
 import com.socialmedia.service.IUserService;
+import com.socialmedia.vo.UsersIVO;
+import com.socialmedia.vo.UsersVO;
 
 @CrossOrigin
 @RestController
@@ -49,5 +55,18 @@ public class UserController {
 	public List<UserDTO> getFollowersById(@PathVariable("id") Integer userId){
 		return userServ.getFollowersById(userId);
 	}
+	
+	@PostMapping(value = "/login")
+	public ResponseEntity<UsersVO> login(@RequestBody @Valid UsersIVO user){
+		UsersVO userLogin = userServ.login(user);
+		if(userLogin != null) {
+			return new ResponseEntity<UsersVO>(userLogin, HttpStatus.OK);
+		}
+		else {
+			return new ResponseEntity("User not register. Sign Up first!!", HttpStatus.NOT_FOUND);
+		}
+		
+	}
+	
 	
 }

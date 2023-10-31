@@ -17,24 +17,42 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.socialmedia.dto.UserDTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 
 @Entity
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Users {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Integer userId;
 	
+	@NotBlank
 	private String name;
+	
+	@NotBlank
+	@Email
+	private String email;
+	
+	@NotBlank
 	private String userName;
+	
+	@NotBlank
+	@Pattern(regexp = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$",message = "Please enter password in given condition.")
 	private String password;
+	
 	private String bio;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
