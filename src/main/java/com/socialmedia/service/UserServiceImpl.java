@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.socialmedia.dto.UserDTO;
+import com.socialmedia.dto.UserPostDetails;
 import com.socialmedia.entity.Users;
 import com.socialmedia.repository.IRelationRepo;
 import com.socialmedia.repository.IUserRepo;
@@ -40,8 +41,9 @@ public class UserServiceImpl implements IUserService{
 	}
 
 	@Override
-	public void updateUser(Integer userId, String bio) {
-		userRepo.updateUser(userId, bio);		
+	public Users updateUser(Users user) {
+		
+		return userRepo.updateUser(user.getUserId(), user.getName(), user.getBio(), user.getEmail(), user.getUserName());		
 	}
 
 	@Override
@@ -60,6 +62,12 @@ public class UserServiceImpl implements IUserService{
 			userLogin.setPassword(userValidate.getPassword());
 		}
 		return userLogin;
+	}
+
+	@Override
+	public List<UserPostDetails> getAllPostsByUId(Integer userId) {
+		// TODO Auto-generated method stub
+		return userRepo.getAllPostsbyUId(userId);
 	}
 
 }

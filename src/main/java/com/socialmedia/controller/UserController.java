@@ -10,14 +10,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.socialmedia.dto.UserDTO;
+import com.socialmedia.dto.UserPostDetails;
 import com.socialmedia.entity.Users;
 import com.socialmedia.service.IUserService;
 import com.socialmedia.vo.UsersIVO;
@@ -32,33 +33,46 @@ public class UserController {
 	private IUserService userServ;
 	
 	@PostMapping("/register")
-	public Users registerUser(@RequestBody Users user) {
-		return userServ.registerUser(user);
+	public ResponseEntity<Users> registerUser(@RequestBody Users user) {
+		return new ResponseEntity<>(userServ.registerUser(user), HttpStatus.CREATED);
 	}
 	
 	@GetMapping("/view")
-	public List<Users> getUsers(){
-		return userServ.getUsers();
+	public ResponseEntity<List<Users>> getUsers(){
+		return new ResponseEntity<>(userServ.getUsers(), HttpStatus.ACCEPTED);
 	}
 	
 	@DeleteMapping("/delete/{id}")
-	public void deleteUser(@PathVariable("id") Integer userId) {
+	public ResponseEntity<Void> deleteUser(@PathVariable("id") Integer userId) {
 		userServ.deleteUser(userId);
+		return new ResponseEntity<>(HttpStatus.ACCEPTED); 
 	}
 	
-	@PutMapping("update/{id}/{bio}")
-	public void updateUserBio(@PathVariable("id") Integer userId, @PathVariable("bio") String bio) {
-		 userServ.updateUser(userId,bio);
-	}
+//	@PutMapping("update/{id}/{bio}")
+//	public ResponseEntity<Void> updateUserBio(@PathVariable("id") Integer userId, @PathVariable("bio") String bio) {
+//		 userServ.updateUser(userId,bio);
+//		 return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//	}
 	
+	@PatchMapping("update/{id}")
+	public ResponseEntity<Users> updateUser(@RequestBody Users user){
+		return new ResponseEntity<>(userServ.updateUser(user), HttpStatus.ACCEPTED);
+	}
 	@GetMapping("/all/followers/{id}")
-	public List<UserDTO> getFollowersById(@PathVariable("id") Integer userId){
-		return userServ.getFollowersById(userId);
+	public ResponseEntity<List<UserDTO>> getFollowersById(@PathVariable("id") Integer userId){
+		return new ResponseEntity<>(userServ.getFollowersById(userId),HttpStatus.ACCEPTED);
+	}
+	
+	@GetMapping("/posts/{id}")
+	public ResponseEntity<List<UserPostDetails>> getAllPostsByUId(@PathVariable("id") Integer userId){
+		System.out.println("Entering");
+		return new ResponseEntity<>(userServ.getAllPostsByUId(userId), HttpStatus.ACCEPTED);
 	}
 	
 	@PostMapping(value = "/login")
 	public ResponseEntity<UsersVO> login(@RequestBody @Valid UsersIVO user){
 		UsersVO userLogin = userServ.login(user);
+		System.out.println("entering");
 		if(userLogin != null) {
 			return new ResponseEntity<UsersVO>(userLogin, HttpStatus.OK);
 		}
